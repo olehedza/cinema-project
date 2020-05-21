@@ -38,6 +38,8 @@
 
         <!-- List of XML mapping files -->
         <mapping class="com.dev.cinema.model.Movie"/>
+        <mapping class="com.dev.cinema.model.MovieSession"/>
+        <mapping class="com.dev.cinema.model.CinemaHall"/>
 
     </session-factory>
 </hibernate-configuration>

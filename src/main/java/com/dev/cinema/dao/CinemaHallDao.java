@@ -1,7 +1,7 @@
 package com.dev.cinema.dao;
 
-import java.util.List;
 import com.dev.cinema.model.CinemaHall;
+import java.util.List;
 
 public interface CinemaHallDao {
     CinemaHall add(CinemaHall cinemaHall);
