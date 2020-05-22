@@ -6,8 +6,6 @@ import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.MovieSession;
 import com.dev.cinema.util.HibernateUtil;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -23,9 +21,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
 
     @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<MovieSession> criteriaQuery = criteriaBuilder
                     .createQuery(MovieSession.class);
@@ -33,17 +29,12 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             Predicate idPredicate = criteriaBuilder
                     .equal(sessionRoot.get("movie"), movieId);
             Predicate datePredicate = criteriaBuilder
-                    .greaterThan(sessionRoot.get("showTime"),
-                            LocalDateTime.of(date, LocalTime.now()));
+                    .greaterThan(sessionRoot.get("showTime"), date.atStartOfDay());
             criteriaQuery.where(idPredicate, datePredicate);
             return session.createQuery(criteriaQuery).list();
         } catch (Exception e) {
             throw new DataProcessingException(String
                     .format("Failed to retrieve movie sessions by movie id:%s", movieId), e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 
@@ -57,6 +48,7 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             Long movieSessionId = (Long) session.save(movieSession);
             movieSession.setId(movieSessionId);
             transaction.commit();
+            LOGGER.info("movie session successfully submitted into DB");
             return movieSession;
         } catch (Exception e) {
             if (transaction != null) {

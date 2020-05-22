@@ -26,6 +26,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             Long cinemaHallId = (Long) session.save(cinemaHall);
             cinemaHall.setId(cinemaHallId);
             transaction.commit();
+            LOGGER.info("cinema hall successfully submitted into DB");
             return cinemaHall;
         } catch (Exception e) {
             if (transaction != null) {
@@ -41,9 +42,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
 
     @Override
     public List<CinemaHall> getAll() {
-        Session session = null;
-        try {
-            session = HibernateUtil.getSessionFactory().openSession();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<CinemaHall> criteriaQuery = criteriaBuilder
                     .createQuery(CinemaHall.class);
@@ -51,10 +50,6 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             return session.createQuery(criteriaQuery).list();
         } catch (Exception e) {
             throw new DataProcessingException("Failed to retrieve all cinema halls", e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
         }
     }
 }
