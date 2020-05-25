@@ -1,39 +1,38 @@
 package com.dev.cinema.dao.impl;
 
-import com.dev.cinema.dao.MovieDao;
+import com.dev.cinema.dao.CinemaHallDao;
 import com.dev.cinema.exceptions.DataProcessingException;
 import com.dev.cinema.lib.Dao;
-import com.dev.cinema.model.Movie;
+import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.util.HibernateUtil;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 @Dao
-public class MovieDaoImpl implements MovieDao {
-    private static final Logger LOGGER = Logger.getLogger(MovieDaoImpl.class);
+public class CinemaHallDaoImpl implements CinemaHallDao {
+    private static final Logger LOGGER = Logger.getLogger(CinemaHallDaoImpl.class);
 
     @Override
-    public Movie add(Movie movie) {
-        Transaction transaction = null;
+    public CinemaHall add(CinemaHall cinemaHall) {
         Session session = null;
+        Transaction transaction = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            Long movieId = (Long) session.save(movie);
+            Long cinemaHallId = (Long) session.save(cinemaHall);
+            cinemaHall.setId(cinemaHallId);
             transaction.commit();
-            movie.setId(movieId);
-            return movie;
+            LOGGER.info("cinema hall successfully submitted into DB");
+            return cinemaHall;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert Movie entity", e);
+            throw new DataProcessingException("Failed to add cinema hall to DB", e);
         } finally {
             if (session != null) {
                 session.close();
@@ -42,17 +41,15 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     @Override
-    public List<Movie> getAll() {
+    public List<CinemaHall> getAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<Movie> criteriaQuery = criteriaBuilder.createQuery(Movie.class);
-            Root<Movie> root = criteriaQuery.from(Movie.class);
-            criteriaQuery.select(root);
-
-            Query<Movie> query = session.createQuery(criteriaQuery);
-            return query.getResultList();
+            CriteriaQuery<CinemaHall> criteriaQuery = criteriaBuilder
+                    .createQuery(CinemaHall.class);
+            criteriaQuery.from(CinemaHall.class);
+            return session.createQuery(criteriaQuery).list();
         } catch (Exception e) {
-            throw new DataProcessingException("Error retrieving all movies.", e);
+            throw new DataProcessingException("Failed to retrieve all cinema halls", e);
         }
     }
 }
