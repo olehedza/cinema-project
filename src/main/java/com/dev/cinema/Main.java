@@ -4,9 +4,12 @@ import com.dev.cinema.lib.Injector;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.MovieSession;
+import com.dev.cinema.model.User;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
+import com.dev.cinema.service.UserService;
+import com.dev.cinema.util.HashUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -19,6 +22,8 @@ public class Main {
             (CinemaHallService) injector.getInstance(CinemaHallService.class);
     private static final MovieSessionService movieSessionService =
             (MovieSessionService) injector.getInstance(MovieSessionService.class);
+    private static final UserService userService =
+            (UserService) injector.getInstance(UserService.class);
 
     public static void main(String[] args) {
         Movie movie1 = new Movie();
@@ -72,5 +77,13 @@ public class Main {
 
         movieSessionService.findAvailableSessions(movie1.getId(), LocalDate.now())
                 .forEach(System.out::println);
+
+        byte[] salt = HashUtil.getSalt();
+        User user = new User();
+        user.setEmail("user@google.com");
+        user.setSalt(salt);
+        user.setPassword(HashUtil.getPasswordDigest("1234", salt));
+        userService.add(user);
+        System.out.println(userService.findByEmail("user@google.com"));
     }
 }
