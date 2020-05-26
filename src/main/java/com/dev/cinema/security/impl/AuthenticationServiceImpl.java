@@ -15,10 +15,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
-        User userFromDB = userService.findByEmail(email).orElseThrow(() ->
-                new AuthenticationException("User with such email not found"));
+        User userFromDB = userService.findByEmail(email);
 
-        if (HashUtil.getPasswordDigest(password, userFromDB.getSalt())
+        if (userFromDB != null
+                && HashUtil.getPasswordDigest(password, userFromDB.getSalt())
                 .equals(userFromDB.getPassword())) {
             return userFromDB;
         }
@@ -27,7 +27,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User register(String email, String password) throws AuthenticationException {
-        if (userService.findByEmail(email).isPresent()) {
+        if (userService.findByEmail(email) != null) {
             throw new AuthenticationException(String
                     .format("User with email '%s' already exists", email));
         }
