@@ -45,10 +45,10 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            Long movieSessionId = (Long) session.save(movieSession);
-            movieSession.setId(movieSessionId);
+            session.save(movieSession);
             transaction.commit();
-            LOGGER.info("movie session successfully submitted into DB");
+            LOGGER.info(String
+                    .format("Add Movie Session entity #%d to DB", movieSession.getId()));
             return movieSession;
         } catch (Exception e) {
             if (transaction != null) {

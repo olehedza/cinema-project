@@ -9,13 +9,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "movie")
+@Table(name = "user")
 @Data
 @NoArgsConstructor
-public class Movie {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    private String description;
+    private String email;
+    private String password;
+    private byte[] salt;
 }
