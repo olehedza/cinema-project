@@ -1,24 +1,24 @@
 package com.dev.cinema.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "user")
+@Table(name = "ticket")
 @Data
 @NoArgsConstructor
-public class User {
+public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
-    private String email;
-    private String password;
-    private byte[] salt;
+    @ManyToOne
+    private MovieSession movieSession;
+    @ManyToOne
+    private User user;
 }
