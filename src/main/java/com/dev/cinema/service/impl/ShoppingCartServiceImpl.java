@@ -2,7 +2,6 @@ package com.dev.cinema.service.impl;
 
 import com.dev.cinema.dao.ShoppingCartDao;
 import com.dev.cinema.dao.TicketDao;
-import com.dev.cinema.exceptions.DataProcessingException;
 import com.dev.cinema.lib.Inject;
 import com.dev.cinema.lib.Service;
 import com.dev.cinema.model.MovieSession;
@@ -20,17 +19,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void addSession(MovieSession movieSession, User user) {
-        try {
-            Ticket ticket = new Ticket();
-            ticket.setMovieSession(movieSession);
-            ticket.setUser(user);
-            ShoppingCart cartForUpdate = getByUser(user);
-            cartForUpdate.getTickets().add(ticket);
-            ticketDao.add(ticket);
-            cartDao.update(cartForUpdate);
-        } catch (NullPointerException e) {
-            throw new DataProcessingException("Can't add new movie session", e);
-        }
+        Ticket ticket = new Ticket();
+        ticket.setMovieSession(movieSession);
+        ticket.setUser(user);
+        ShoppingCart cartForUpdate = getByUser(user);
+        cartForUpdate.getTickets().add(ticket);
+        ticketDao.add(ticket);
+        cartDao.update(cartForUpdate);
     }
 
     @Override
