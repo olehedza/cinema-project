@@ -11,6 +11,7 @@ import com.dev.cinema.security.AuthenticationService;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
+import com.dev.cinema.service.OrderService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import com.dev.cinema.util.HashUtil;
@@ -35,6 +36,8 @@ public class Main {
             (AuthenticationService) injector.getInstance(AuthenticationService.class);
     private static final ShoppingCartService cartService =
             (ShoppingCartService) injector.getInstance(ShoppingCartService.class);
+    private static final OrderService orderService =
+            (OrderService) injector.getInstance(OrderService.class);
 
     public static void main(String[] args) {
         Movie movie1 = new Movie();
@@ -124,6 +127,14 @@ public class Main {
             cart3 = cartService.getByUser(tillLindemann);
             List<ShoppingCart> carts = List.of(cart1, cart2, cart3);
             carts.forEach(System.out::println);
+
+            orderService.completeOrder(cart1.getTickets(), trentReznor);
+            cartService.clear(cart1);
+            cartService.addSession(movieSessionTwo, trentReznor);
+            orderService.completeOrder(cart2.getTickets(), marilynManson);
+            cartService.clear(cart2);
+            orderService.getOrderHistory(trentReznor)
+                    .forEach(System.out::println);
         } catch (AuthenticationException e) {
             LOGGER.error("login error", e);
         }

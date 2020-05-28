@@ -39,4 +39,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         cart.setUser(user);
         cartDao.add(cart);
     }
+
+    @Override
+    public void clear(ShoppingCart cart) {
+        cart.getTickets().clear();
+        cartDao.update(cart);
+    }
 }
