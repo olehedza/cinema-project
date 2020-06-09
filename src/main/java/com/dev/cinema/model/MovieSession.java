@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "movie_session")
+@Table(name = "movie_sessions")
 @Data
 @NoArgsConstructor
 public class MovieSession {
