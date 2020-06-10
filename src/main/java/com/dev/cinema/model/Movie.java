@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "movie")
+@Table(name = "movies")
 @Data
 @NoArgsConstructor
 public class Movie {
