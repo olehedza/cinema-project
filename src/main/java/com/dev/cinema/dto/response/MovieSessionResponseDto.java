@@ -1,4 +1,4 @@
-package com.dev.cinema.model.dto.movie_session_dto;
+package com.dev.cinema.dto.response;
 
 import java.time.LocalDateTime;
 import lombok.Getter;

@@ -1,6 +1,5 @@
-package com.dev.cinema.model.dto.order_dto;
+package com.dev.cinema.dto.response;
 
-import com.dev.cinema.model.dto.ticket_dto.TicketResponseDto;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
@@ -12,6 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class OrderResponseDto {
     private Long orderId;
-    private LocalDateTime showTime;
+    private LocalDateTime orderDate;
     private List<TicketResponseDto> tickets;
 }

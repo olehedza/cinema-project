@@ -1,4 +1,4 @@
-package com.dev.cinema.model.dto.movie_dto;
+package com.dev.cinema.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,8 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MovieResponseDto {
-    private Long movieId;
-    private String title;
+public class CinemaHallRequestDto {
+    private int capacity;
     private String description;
 }

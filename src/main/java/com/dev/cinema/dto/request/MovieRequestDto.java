@@ -1,4 +1,4 @@
-package com.dev.cinema.model.dto.cinema_hall_dto;
+package com.dev.cinema.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CinemaHallRequestDto {
-    private int capacity;
+public class MovieRequestDto {
+    private String title;
     private String description;
 }

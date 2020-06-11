@@ -1,4 +1,4 @@
-package com.dev.cinema.model.dto.order_dto;
+package com.dev.cinema.dto.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OrderRequestDto {
+public class UserResponseDto {
     private Long userId;
+    private String email;
 }

@@ -1,6 +1,5 @@
-package com.dev.cinema.model.dto.shopping_cart_dto;
+package com.dev.cinema.dto.response;
 
-import com.dev.cinema.model.dto.ticket_dto.TicketResponseDto;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

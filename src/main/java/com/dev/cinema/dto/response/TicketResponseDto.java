@@ -1,4 +1,4 @@
-package com.dev.cinema.model.dto.ticket_dto;
+package com.dev.cinema.dto.response;
 
 import java.time.LocalDateTime;
 import lombok.Getter;

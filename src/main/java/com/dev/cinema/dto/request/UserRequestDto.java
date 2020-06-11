@@ -1,4 +1,4 @@
-package com.dev.cinema.model.dto.user_dto;
+package com.dev.cinema.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
