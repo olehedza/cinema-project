@@ -5,6 +5,9 @@ import com.dev.cinema.error.DataProcessingException;
 import com.dev.cinema.model.ShoppingCart;
 import com.dev.cinema.model.User;
 import java.util.Optional;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -42,6 +45,21 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public ShoppingCart getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<ShoppingCart> criteriaQuery =
+                    criteriaBuilder.createQuery(ShoppingCart.class);
+            Root<ShoppingCart> model = criteriaQuery.from(ShoppingCart.class);
+            criteriaQuery.where(criteriaBuilder.equal(model.get("id"), id));
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (Exception e) {
+            throw new DataProcessingException(String
+                    .format("Failed to retrieve shopping cart with id:%d", id), e);
         }
     }
 
