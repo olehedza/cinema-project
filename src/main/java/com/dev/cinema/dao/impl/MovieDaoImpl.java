@@ -47,6 +47,21 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     @Override
+    public Movie getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Movie> criteriaQuery =
+                    criteriaBuilder.createQuery(Movie.class);
+            Root<Movie> model = criteriaQuery.from(Movie.class);
+            criteriaQuery.where(criteriaBuilder.equal(model.get("id"), id));
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (Exception e) {
+            throw new DataProcessingException(String
+                    .format("Failed to retrieve movie with id:%d", id), e);
+        }
+    }
+
+    @Override
     public List<Movie> getAll() {
         try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();

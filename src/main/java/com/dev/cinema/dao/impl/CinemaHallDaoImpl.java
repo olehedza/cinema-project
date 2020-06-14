@@ -6,6 +6,7 @@ import com.dev.cinema.model.CinemaHall;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -46,11 +47,26 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
     }
 
     @Override
+    public CinemaHall getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<CinemaHall> criteriaQuery =
+                    criteriaBuilder.createQuery(CinemaHall.class);
+            Root<CinemaHall> model = criteriaQuery.from(CinemaHall.class);
+            criteriaQuery.where(criteriaBuilder.equal(model.get("id"), id));
+            return session.createQuery(criteriaQuery).getSingleResult();
+        } catch (Exception e) {
+            throw new DataProcessingException(String
+                    .format("Failed to retrieve cinema hall with id:%d", id), e);
+        }
+    }
+
+    @Override
     public List<CinemaHall> getAll() {
         try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<CinemaHall> criteriaQuery = criteriaBuilder
-                    .createQuery(CinemaHall.class);
+            CriteriaQuery<CinemaHall> criteriaQuery =
+                    criteriaBuilder.createQuery(CinemaHall.class);
             criteriaQuery.from(CinemaHall.class);
             return session.createQuery(criteriaQuery).list();
         } catch (Exception e) {

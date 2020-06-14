@@ -3,11 +3,13 @@ package com.dev.cinema.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HashUtil {
     private static final String HASHING_ALGORITHM = "SHA-512";
 
-    public static String getPasswordDigest(String password, byte[] salt) {
+    public String getPasswordDigest(String password, byte[] salt) {
         StringBuilder hashString = new StringBuilder();
 
         try {
@@ -25,7 +27,7 @@ public class HashUtil {
         return hashString.toString();
     }
 
-    public static byte[] getSalt() {
+    public byte[] getSalt() {
         SecureRandom secureRandom = new SecureRandom();
         byte[] saltBytes = new byte[16];
         secureRandom.nextBytes(saltBytes);

@@ -25,11 +25,16 @@ public class OrderServiceImpl implements OrderService {
         order.setTickets(tickets);
         order.setUser(user);
         order.setOrderDate(LocalDateTime.now());
-        return orderDao.create(order);
+        return orderDao.add(order);
     }
 
     @Override
     public List<Order> getOrderHistory(User user) {
         return orderDao.getOrderHistory(user);
+    }
+
+    @Override
+    public Order findById(Long id) {
+        return orderDao.getById(id);
     }
 }
