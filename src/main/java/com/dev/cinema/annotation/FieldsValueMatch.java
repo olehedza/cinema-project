@@ -13,7 +13,7 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = FieldMatchValidator.class)
 public @interface FieldsValueMatch {
-    String message() default "Passwords dont";
+    String message() default "Passwords don't match";
 
     Class<?>[] groups() default {};
 
