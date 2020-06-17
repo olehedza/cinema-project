@@ -4,7 +4,6 @@ import static org.springframework.security.core.userdetails.User.withUsername;
 
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.UserService;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.core.userdetails.User.UserBuilder;
@@ -21,24 +20,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     @SneakyThrows
     @Override
     public UserDetails loadUserByUsername(String email) {
-        User user = findUserByEmail(email);
-        UserBuilder userBuilder = null;
+        User user = userService.findByEmail(email);
+        UserBuilder userBuilder;
 
         if (user != null) {
             userBuilder = withUsername(email);
             userBuilder.password(user.getPassword());
             userBuilder.roles(user.getRoles().stream()
                     .map(r -> r.getName().toString())
-                    .collect(Collectors.toList())
                     .toArray(String[]::new));
             return userBuilder.build();
         } else {
             throw new UsernameNotFoundException("No user found! Check input.");
         }
-
-    }
-
-    private User findUserByEmail(String email) {
-        return this.userService.findByEmail(email);
     }
 }
