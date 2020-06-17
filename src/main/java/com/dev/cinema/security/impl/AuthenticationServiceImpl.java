@@ -24,8 +24,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User userFromDB = userService.findByEmail(email);
 
         if (userFromDB != null
-                && userFromDB.getPassword()
-                .equals(passwordEncoder.encode(password))) {
+                && passwordEncoder.matches(password, userFromDB.getPassword())) {
             return userFromDB;
         }
         throw new AuthenticationException("Incorrect email or password");
@@ -46,5 +45,4 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         cartService.registerNewShoppingCart(userFromDB);
         return userFromDB;
     }
-
 }
