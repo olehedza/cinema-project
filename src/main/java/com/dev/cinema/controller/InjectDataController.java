@@ -35,12 +35,12 @@ public class InjectDataController {
         adminUser.setRoles(Set.of(adminRole));
         userService.add(adminUser);
         shoppingCartService.registerNewShoppingCart(adminUser);
-        User normalUser = new User();
-        normalUser.setEmail("userjava@yahoo.com");
-        normalUser.setPassword(passwordEncoder.encode("lofofora"));
-        normalUser.setRoles(Set.of(userRole));
-        userService.add(normalUser);
-        shoppingCartService.registerNewShoppingCart(normalUser);
+        User user = new User();
+        user.setEmail("userjava@yahoo.com");
+        user.setPassword(passwordEncoder.encode("lofofora"));
+        user.setRoles(Set.of(userRole));
+        userService.add(user);
+        shoppingCartService.registerNewShoppingCart(user);
         return MESSAGE;
     }
 }
