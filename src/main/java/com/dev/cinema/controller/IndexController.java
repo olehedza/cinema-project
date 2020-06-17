@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class IndexController {
 
-    @GetMapping("/")
+    @GetMapping("/hello")
     public String index(@RequestParam(
             required = false,
             defaultValue = "Oleksii"
