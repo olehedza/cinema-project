@@ -10,8 +10,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CinemaHallRequestDto {
-    @Positive
+    @Positive(message = "Capacity field should only take positive values")
     private int capacity;
-    @NotEmpty
+    @NotEmpty(message = "Description field shouldn't be blank")
     private String description;
 }

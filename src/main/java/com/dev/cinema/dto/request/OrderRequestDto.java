@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class OrderRequestDto {
-    @NotNull
+    @NotNull(message = "userId field cannot be null")
     private Long userId;
 }

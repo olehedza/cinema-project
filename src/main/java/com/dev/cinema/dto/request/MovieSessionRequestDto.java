@@ -11,10 +11,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MovieSessionRequestDto {
-    @NotNull
+    @NotNull(message = "movieId cannot be null")
     private Long movieId;
-    @NotNull
+    @NotNull(message = "cinemaHallId cannot be null")
     private Long cinemaHallId;
-    @FutureOrPresent
+    @FutureOrPresent(message = "The time must be present or future")
     private LocalDateTime showTime;
 }
