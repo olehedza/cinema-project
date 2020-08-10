@@ -28,30 +28,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/inject-data", "/login", "/register")
-                .permitAll()
+                    .permitAll()
                 .antMatchers(HttpMethod.POST,"/shopping-carts/**", "/orders/complete")
-                .hasRole("USER")
+                    .hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/cinema-halls", "/movies",
                         "/movie-sessions")
-                .hasRole("ADMIN")
+                    .hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/users/by-email", "/hello", "/movies",
                         "/cinema-halls", "/shopping-carts", "/movie-sessions/available", "/orders")
-                .hasAnyRole("USER", "ADMIN")
-                .anyRequest()
-                .authenticated()
+                    .hasAnyRole("USER", "ADMIN")
+                    .anyRequest()
+                    .authenticated()
                 .and()
-                .formLogin()
-                .permitAll()
+                    .formLogin()
+                    .permitAll()
                 .and()
-                .httpBasic()
+                    .httpBasic()
                 .and()
-                .logout()
-                .permitAll()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
+                    .logout()
+                    .permitAll()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login")
                 .and()
-                .csrf()
-                .disable();
+                    .csrf()
+                    .disable();
     }
 
     @Bean
